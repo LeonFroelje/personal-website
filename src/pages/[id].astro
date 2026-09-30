@@ -1,0 +1,142 @@
+---
+// src/pages/docs/[id].astro
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((doc) => ({
+    params: { id: doc.id },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+
+// Guard against undefined entries during hot-reloads
+if (!doc) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await render(doc);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{doc.data.title}</title>
+    <link
+      rel="preload"
+      href="/fonts/NewCM10-Regular.otf"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/NewCMMath-Regular.otf"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <!-- Import the custom element registry script on the client -->
+    <script>
+      import '../components/InteractivePlot.element';
+    </script>
+    <style is:global>
+    <style is:global>
+  /* Local Font Declarations */
+  @font-face {
+    font-family: 'New Computer Modern';
+    src: url('/fonts/NewCM10-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'New Computer Modern Math';
+    src: url('/fonts/NewCMMath-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Global Document Styling */
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'New Computer Modern', serif;
+    background-color: #ffffff;
+    color: #0f172a;
+    line-height: 1.6;
+  }
+
+  /* MathML Cross-Browser Sizing & Math Font */
+  math {
+    font-size: 1.15em;
+    font-family: 'New Computer Modern Math', 'STIX Two Math', 'Latin Modern Math', serif;
+  }
+
+  math * {
+    box-sizing: content-box;
+  }
+      main {
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+      }
+      @media (min-width: 320px) {
+        .typst-article {
+          width: 95vw;
+          overflow-x: none;
+          figure {
+            width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+          }
+        }
+      }
+      @media (min-width: 600px) {
+        .typst-article {
+          width: 90vw;
+          max-width: 800px;
+          figure {
+            width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+          }
+        }
+      }
+      @media (min-width: 1000px) {
+        .typst-article {
+          width: 60vw;
+          max-width: 800px;
+          figure {
+            width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <article class="typst-article">
+      {/* Astro renders the HTML from Typst directly. */}
+      {/* The browser discovers <interactive-sine-plot> and mounts the SolidJS component. */}
+        <Content />
+      </article>
+    </main>
+  </body>
+</html>

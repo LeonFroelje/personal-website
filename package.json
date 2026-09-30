@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@astrojs/solid-js": "^7.0.2",
+    "@myriaddreamin/typst-ts-node-compiler": "^0.7.0",
     "astro": "^7.3.5",
+    "node-path": "^0.0.3",
+    "solid-element": "^1.9.2",
     "solid-js": "^1.9.11"
   },
   "allowScripts": {
