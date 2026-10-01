@@ -1,0 +1,36 @@
+---
+// src/pages/projects/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
+---
+<BaseLayout title="Projects" description="Things I've built.">
+  <section class="grid">
+    <h1>Projects</h1>
+    <div class="cards">
+      {projects.map((p) => (
+        <article class="card">
+          <h2>{p.data.title}</h2>
+          <p>{p.data.summary}</p>
+          <ul class="tags">{p.data.tags.map((t) => <li>{t}</li>)}</ul>
+          <div class="links">
+            {p.data.writeup && <a href={`/writing/${p.data.writeup}/`}>Write-up →</a>}
+            {p.data.liveUrl && <a href={p.data.liveUrl}>Live demo →</a>}
+            {p.data.repoUrl && <a href={p.data.repoUrl}>Source →</a>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .grid { max-width: var(--wide-width); margin: 3rem auto; padding: 0 1.5rem; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .card { border: 1px solid var(--color-border); border-radius: 10px; padding: 1.5rem; }
+  .card h2 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+  .card p { color: var(--color-text-muted); margin: 0 0 1rem; }
+  .tags { display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 1rem; flex-wrap: wrap; }
+  .tags li { font-size: 0.75rem; color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: 999px; padding: 0.15rem 0.6rem; }
+  .links { display: flex; gap: 1rem; font-size: 0.9rem; flex-wrap: wrap; }
+</style>

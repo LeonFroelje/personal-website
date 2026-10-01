@@ -1,0 +1,41 @@
+---
+// src/pages/cv.astro
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const [cvEntry] = await getCollection('cv');
+const { Content } = await render(cvEntry);
+---
+<BaseLayout title="CV" description="Leon Frölje's CV.">
+  <section class="cv-page">
+    <div class="cv-actions">
+      <a class="download-button" href="/cv.pdf" download>Download PDF</a>
+    </div>
+    <Content />
+  </section>
+</BaseLayout>
+
+<style is:global>
+  /* Targets classes emitted by resume.typ's HTML branch. <Content /> is
+     raw injected HTML, so these must be global -- Astro's scoped-style
+     compiler never sees markup that arrives this way. */
+  .cv-header { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; justify-content: space-between; }
+  .cv-photo img { border-radius: 8px; width: 120px; }
+  .cv-contact { display: flex; flex-direction: column; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.9rem; }
+  .cv-entries { display: flex; flex-direction: column; gap: 1.5rem; margin: 1rem 0 2rem; }
+  .cv-entry-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .cv-entry-org { font-weight: 600; }
+  .cv-entry-role { font-weight: 600; color: var(--color-text-muted); }
+  .cv-entry-time { color: var(--color-text-muted); font-size: 0.85rem; margin: 0.15rem 0 0.5rem; }
+  .cv-entry-tasks { margin: 0; padding-left: 1.2rem; color: var(--color-text-muted); }
+  .cv-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 640px) { .cv-columns { grid-template-columns: 1fr; } }
+</style>
+<style>
+  .cv-page { max-width: var(--content-width); margin: 3rem auto; padding: 0 1.5rem; }
+  .cv-actions { margin-bottom: 2rem; }
+  .download-button {
+    display: inline-block; padding: 0.6rem 1.2rem; border-radius: 6px;
+    background: var(--color-accent); color: white; text-decoration: none; font-weight: 600;
+  }
+</style>

@@ -1,34 +1,47 @@
 ---
-// Component Imports
-import Counter from '../components/Counter';
+// src/pages/index.astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+const recentDocs = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0))
+  .slice(0, 3);
+
+const featuredProjects = (await getCollection('projects', ({ data }) => data.featured)).slice(0, 3);
 ---
+<BaseLayout title="Home" description="Personal site of Leon Frölje - math, CS, and side projects.">
+  <section class="hero">
+    <h1>Moin, I'm Leon Frölje.</h1>
+    <p>
+      Welcome to my personal website. 
+      Currently, I am a master student in mathematics at the university of Bremen. 
+      On this website, I write about math, computer science, and whatever I'm currently interested in. 
+    </p>
+  </section>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<style>
-			html,
-			body {
-				font-family: system-ui;
-				margin: 0;
-			}
-			body {
-				padding: 2rem;
-			}
-		</style>
-	</head>
-	<body>
-		<main>
-			<Counter client:visible>
-				<h1>Hello, Solid!</h1>
-			</Counter>
-		</main>
-	</body>
-</html>
+  <section class="teaser">
+    <div class="teaser-header"><h2>Recent writing</h2><a href="/writing/">All writing →</a></div>
+    <ul>{recentDocs.map((doc) => <li><a href={`/writing/${doc.id}/`}>{doc.data.title}</a></li>)}</ul>
+  </section>
+
+  <section class="teaser">
+    <div class="teaser-header"><h2>Selected projects</h2><a href="/projects/">All projects →</a></div>
+    <ul>
+      {featuredProjects.map((p) => (
+        <li>
+          <a href={p.data.writeup ? `/writing/${p.data.writeup}/` : (p.data.liveUrl ?? p.data.repoUrl ?? '/projects/')}>
+            {p.data.title}
+          </a> — {p.data.summary}
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+<style>
+  .hero, .teaser { max-width: var(--content-width); margin: 3rem auto; padding: 0 1.5rem; }
+  .hero h1 { font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem); margin-bottom: 0.75rem; }
+  .hero p { color: var(--color-text-muted); font-size: 1.1rem; }
+  .teaser-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .teaser ul { list-style: none; padding: 0; }
+  .teaser li { padding: 0.5rem 0; }
+</style>

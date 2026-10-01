@@ -5,6 +5,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	// Enable Solid to support Solid JSX components.
-	integrations: [solid()],
+  // Enable Solid to support Solid JSX components.
+  integrations: [solid()],
+  site: 'https://leon.froelje.dev'
 });

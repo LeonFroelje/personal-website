@@ -1,0 +1,55 @@
+---
+// src/layouts/TypstLayout.astro
+import BaseLayout from './BaseLayout.astro';
+interface Props { title: string; description?: string; }
+const { title, description } = Astro.props;
+---
+<BaseLayout title={title} description={description} type="article">
+  <Fragment slot="head">
+    <link rel="preload" href="/fonts/NewCM10-Regular.otf" as="font" type="font/otf" crossorigin />
+    <link rel="preload" href="/fonts/NewCMMath-Regular.otf" as="font" type="font/otf" crossorigin />
+    <script>
+      import '../components/elements/load-elements.client';
+    </script>
+    <!--
+      `is:global` is required here, not optional: `<Content />` is raw HTML
+      from the content collection render function, which bypasses Astro's
+      scoped-style compiler entirely. Scoped (non-global) styles would
+      silently never apply to anything inside .typst-article.
+    -->
+    <style is:global>
+      @font-face {
+        font-family: 'New Computer Modern';
+        src: url('/fonts/NewCM10-Regular.otf') format('opentype');
+        font-weight: 400; font-style: normal; font-display: swap;
+      }
+      @font-face {
+        font-family: 'New Computer Modern Math';
+        src: url('/fonts/NewCMMath-Regular.otf') format('opentype');
+        font-weight: 400; font-style: normal; font-display: swap;
+      }
+      .typst-article {
+        font-family: 'New Computer Modern', serif;
+        margin: 2.5rem auto;
+        width: 95vw;
+      }
+      .typst-article math {
+        font-size: 1.15em;
+        font-family: 'New Computer Modern Math', 'STIX Two Math', serif;
+      }
+      .typst-article math * { box-sizing: content-box; }
+      .typst-article figure {
+        width: 100%; margin: 1.5rem 0;
+        display: flex; flex-direction: column; align-items: center;
+      }
+      .typst-article svg { max-width: 100%; height: auto; }
+      .typst-article :not(:defined) {
+        display: block; min-height: 200px;
+        background: var(--color-border); border-radius: 8px;
+      }
+      @media (min-width: 600px) { .typst-article { width: 90vw; max-width: 800px; } }
+      @media (min-width: 1000px) { .typst-article { width: 60vw; max-width: 800px; } }
+    </style>
+  </Fragment>
+  <article class="typst-article"><slot /></article>
+</BaseLayout>

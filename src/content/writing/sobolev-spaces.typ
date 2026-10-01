@@ -1,6 +1,15 @@
+#metadata((
+  title: "Weak Derivatives and Sobolev Spaces",
+  description: "From distributions to Sobolev spaces, motivated by the wave equation.",
+  date: "2024-05-01",
+  draft: false,
+  tags: ("pde", "functional-analysis"),
+)) <frontmatter>
+
+
 #import "@preview/cetz:0.5.2"
-#import "./util.typ": *
-#import "./theorems.typ": *
+#import "../typst-lib/util.typ": *
+#import "../typst-lib/theorems.typ": *
 #show math.equation: box
 #show: show-theorion
 #set heading(numbering: "1.")

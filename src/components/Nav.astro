@@ -1,0 +1,31 @@
+---
+// src/components/Nav.astro
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/writing/', label: 'Writing' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/cv/', label: 'CV' },
+];
+const currentPath = Astro.url.pathname;
+---
+<header class="site-header">
+  <nav class="site-nav">
+    <a class="brand" href="/">Leon Frölje</a>
+    <ul>
+      {links.map((l) => (
+        <li><a href={l.href} aria-current={currentPath === l.href ? 'page' : undefined}>{l.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>
+<style>
+  .site-header { border-bottom: 1px solid var(--color-border); }
+  .site-nav {
+    max-width: var(--wide-width); margin: 0 auto; padding: 1.25rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .brand { font-weight: 600; color: var(--color-text); text-decoration: none; }
+  ul { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+  a { color: var(--color-text-muted); text-decoration: none; font-size: 0.95rem; }
+  a:hover, a[aria-current="page"] { color: var(--color-text); }
+</style>
