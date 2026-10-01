@@ -18,12 +18,12 @@
     workExperience("08/2024–09/2025", "Working student", "State and University Library Bremen", none, (
       "Back- and frontend development for Pollux project",
     )),
-    workExperience("02/2025-present", "Working student", "University Bremen", none, (
+    workExperience("02/2025-09/2026", "Working student", "University Bremen", none, (
       "LaTeX template creation for thesis",
       "Website maintenance in Typo3",
       "Python script for lecture scheduling and room assignment",
     )),
-    workExperience("11/2025-present", "Scientific Working student", "DFKI", "Bremen", (
+    workExperience("11/2025-09/2026", "Scientific Working student", "DFKI", "Bremen", (
       "Quantum computing research",
       "An Efficient Encoding for Subset Sum Problem
 Exploiting QFT-Based Arithmetic Operators, IEEE Quantum Week 2026",

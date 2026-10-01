@@ -4,18 +4,19 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
+
 ---
-<BaseLayout title="Projects" description="Things I've built.">
+<BaseLayout title="Projects" description="My projects.">
   <section class="grid">
     <h1>Projects</h1>
     <div class="cards">
       {projects.map((p) => (
         <article class="card">
-          <h2>{p.data.title}</h2>
+          <h2><a href={`/projects/${p.id}/`}>{p.data.title}</a></h2>
           <p>{p.data.summary}</p>
-          <ul class="tags">{p.data.tags.map((t) => <li>{t}</li>)}</ul>
+          <ul class="tags">{p.data.tags.map((t) => <li><a href={`/tags/${t}/`}>{t}</a></li>)}</ul>
           <div class="links">
-            {p.data.writeup && <a href={`/writing/${p.data.writeup}/`}>Write-up →</a>}
+            {p.id && <a href={`/projects/${p.id}/`}>See more →</a>}
             {p.data.liveUrl && <a href={p.data.liveUrl}>Live demo →</a>}
             {p.data.repoUrl && <a href={p.data.repoUrl}>Source →</a>}
           </div>

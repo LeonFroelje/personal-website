@@ -4,5 +4,4 @@ summary: A SolidJS + canvas visualizer for the 1D wave equation, embedded in a T
 year: 2024
 tags: [math, pde, visualization]
 repoUrl: https://github.com/LeonFroelje
-writeup: wave-equation-derivation
 featured: true

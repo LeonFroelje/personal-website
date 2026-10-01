@@ -1,0 +1,27 @@
+---
+// src/components/SeriesNav.astro
+import { getCollection } from 'astro:content';
+interface Props { currentId: string; project: string; }
+const { currentId, project } = Astro.props;
+
+const siblings = (await getCollection('docs', (d) => !d.data.draft && d.data.project === project))
+  .sort((a, b) =>
+    (a.data.part ?? Infinity) - (b.data.part ?? Infinity) ||
+    (a.data.date?.valueOf() ?? 0) - (b.data.date?.valueOf() ?? 0)
+  );
+
+const index = siblings.findIndex((d) => d.id === currentId);
+const prev = index > 0 ? siblings[index - 1] : null;
+const next = index < siblings.length - 1 ? siblings[index + 1] : null;
+---
+{siblings.length > 1 && (
+  <nav class="series-nav">
+    <div>{prev && <a href={`/writing/${prev.id}/`}>← {prev.data.title}</a>}</div>
+    <div class="series-position">Part {index + 1} of {siblings.length}</div>
+    <div>{next && <a href={`/writing/${next.id}/`}>{next.data.title} →</a>}</div>
+  </nav>
+)}
+<style>
+  .series-nav { display: flex; justify-content: space-between; gap: 1rem; margin: 2rem 0; padding: 1rem 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); font-size: 0.9rem; }
+  .series-position { color: var(--color-text-muted); white-space: nowrap; }
+</style>

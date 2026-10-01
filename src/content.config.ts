@@ -171,7 +171,6 @@ const projects = defineCollection({
     tags: z.array(z.string()).default([]),
     repoUrl: z.string().url().optional(),
     liveUrl: z.string().url().optional(),
-    writeup: z.string().optional(), // id into the `writing` collection
     featured: z.boolean().default(false),
   }),
 });
@@ -189,6 +188,8 @@ const writing = defineCollection({
     date: z.coerce.date().optional(),
     draft: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
+    project: z.string().optional(),
+    part: z.number().optional(),
   }),
 });
 

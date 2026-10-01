@@ -1,0 +1,50 @@
+---
+// src/pages/projects/[id].astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const writeups = (await getCollection('docs', (d) => !d.data.draft && d.data.project === project.id))
+  .sort((a, b) =>
+    (a.data.part ?? Infinity) - (b.data.part ?? Infinity) ||
+    (a.data.date?.valueOf() ?? 0) - (b.data.date?.valueOf() ?? 0)
+  );
+---
+<BaseLayout title={project.data.title} description={project.data.summary}>
+  <section class="project-detail">
+    <h1>{project.data.title}</h1>
+    <p>{project.data.summary}</p>
+    <div class="links">
+      {project.data.repoUrl && <a href={project.data.repoUrl}>Source →</a>}
+      {project.data.liveUrl && <a href={project.data.liveUrl}>Live demo →</a>}
+    </div>
+
+    {writeups.length > 0 && (
+      <>
+        <h2>Writing</h2>
+        <ol class="writeup-list">
+          {writeups.map((doc) => (
+            <li>
+              <a href={`/writing/${doc.id}/`}>
+                {doc.data.part != null && <span class="part-num">Part {doc.data.part} — </span>}
+                {doc.data.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </>
+    )}
+  </section>
+</BaseLayout>
+<style>
+  .project-detail { max-width: var(--content-width); margin: 3rem auto; padding: 0 1.5rem; }
+  .links { display: flex; gap: 1rem; margin: 1rem 0 2rem; }
+  .writeup-list { padding-left: 1.2rem; }
+  .writeup-list li { margin: 0.5rem 0; }
+  .part-num { color: var(--color-text-muted); }
+</style>

@@ -51,5 +51,8 @@ const { title, description } = Astro.props;
       @media (min-width: 1000px) { .typst-article { width: 60vw; max-width: 800px; } }
     </style>
   </Fragment>
+
+  <slot name="nav-top" />
   <article class="typst-article"><slot /></article>
+  <slot name="nav-bottom" />
 </BaseLayout>

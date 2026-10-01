@@ -2,6 +2,7 @@
 // src/pages/writing/[id].astro
 import { getCollection, render } from 'astro:content';
 import TypstLayout from '../../layouts/TypstLayout.astro';
+import SeriesNav from '../../components/SeriesNav.astro';
 
 export async function getStaticPaths() {
   const writing = await getCollection('writing', ({ data }) => !data.draft);
@@ -11,5 +12,7 @@ const { doc } = Astro.props;
 const { Content } = await render(doc);
 ---
 <TypstLayout title={doc.data.title} description={doc.data.description}>
+  {doc.data.project && <SeriesNav slot="nav-top" currentId={doc.id} project={doc.data.project} />}
   <Content />
+  {doc.data.project && <SeriesNav slot="nav-bottom" currentId={doc.id} project={doc.data.project} />}
 </TypstLayout>
