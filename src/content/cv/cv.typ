@@ -6,9 +6,6 @@
 #show: resume.with(
   name: "Leon Frölje",
   email: link("mailto:Leon@Froelje.dev", "Leon@Froelje.dev"),
-  phone: "+49 172 9446033",
-  address: "Kirchweg 154, 28201 Bremen",
-  birth: "09.05.2001, Westerstede",
   github: link("https://github.com/LeonFroelje", "github.com/LeonFroelje"),
   workExperiences: (
     workExperience("10/2022–10/2023", "Tutor Applied Computer Science", "University Bremen", none, (
