@@ -14,6 +14,7 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/solid-js": "^7.0.2",
+    "@astrojs/ts-plugin": "^1.10.12",
     "@myriaddreamin/typst-ts-node-compiler": "^0.7.0",
     "astro": "^7.3.5",
     "node-path": "^0.0.3",
@@ -23,5 +24,11 @@
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0",
+    "typescript": "^6.0.3"
   }
 }
